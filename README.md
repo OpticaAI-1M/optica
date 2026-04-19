@@ -1,9 +1,9 @@
-# Optica
 
-<div align="center">
-  <img src="./assets/images/logo.png" alt="Optica Logo" width="120" />
 
-# Optica
+<p align="center">
+  <img src="./assets/images/logo.png" alt="Optica Logo" width="600" />
+</p>
+
 
 ### AI-Powered Production Incident Intelligence Platform
 
@@ -301,7 +301,6 @@ optica/
 
 ## Screenshots
 
-> Replace these placeholders with actual application screenshots later.
 
 <table>
 <tr>
