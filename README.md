@@ -1,7 +1,7 @@
 # Optica
 
 <div align="center">
-  <img src="./assets/images/logo-light.svg" alt="Optica Logo" width="120" />
+  <img src="./assets/images/logo.png" alt="Optica Logo" width="120" />
 
 # Optica
 
