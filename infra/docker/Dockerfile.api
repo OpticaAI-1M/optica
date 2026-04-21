@@ -1,0 +1,36 @@
+FROM python:3.11-slim
+
+# Prevent Python from writing .pyc files and buffer logs
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+# Install system dependencies required for Poetry and future packages
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Poetry
+ENV POETRY_VERSION=1.8.2
+RUN pip install --no-cache-dir "poetry==$POETRY_VERSION"
+
+# Configure Poetry to install directly into the container environment
+RUN poetry config virtualenvs.create false
+
+WORKDIR /app/backend
+
+# Copy only dependency files first for Docker layer caching
+COPY backend/pyproject.toml /app/backend/pyproject.toml
+
+# If poetry.lock exists later, add it too:
+# COPY backend/poetry.lock /app/backend/poetry.lock
+
+# Install dependencies
+RUN poetry install --no-root
+
+# Copy application code
+COPY backend /app/backend
+
+EXPOSE 8000
+
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
