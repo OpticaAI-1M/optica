@@ -54,20 +54,20 @@ services:
         condition: service_healthy
 
   api:
-    image: python:3.11-slim
+    build:
+        context: .
+        dockerfile: infra/docker/Dockerfile.api
     container_name: optica-api
     restart: unless-stopped
-    working_dir: /app
-    command: tail -f /dev/null
     ports:
-      - "8000:8000"
+        - "8000:8000"
     volumes:
-      - ./backend:/app
+        - ./backend:/app/backend
     depends_on:
-      db:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
+        db:
+          condition: service_healthy
+        rabbitmq:
+          condition: service_healthy
 
 volumes:
   postgres_data:
