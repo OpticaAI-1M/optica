@@ -6,9 +6,9 @@ services:
     container_name: optica-db
     restart: unless-stopped
     environment:
-      POSTGRES_DB: optica
-      POSTGRES_USER: optica
-      POSTGRES_PASSWORD: optica
+      POSTGRES_DB: ${POSTGRES_DB:-optica}
+      POSTGRES_USER: ${POSTGRES_USER:-optica}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-optica}
     ports:
       - "5432:5432"
     volumes:
@@ -27,8 +27,8 @@ services:
       - "5672:5672"
       - "15672:15672"
     environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER:-guest}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS:-guest}
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
     healthcheck:
@@ -43,8 +43,8 @@ services:
     restart: unless-stopped
     command: start-dev
     environment:
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN:-admin}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-admin}
     ports:
       - "8080:8080"
     volumes:
@@ -59,6 +59,8 @@ services:
         dockerfile: infra/docker/Dockerfile.api
     container_name: optica-api
     restart: unless-stopped
+    env_file:
+      - .env
     ports:
         - "8000:8000"
     volumes:
