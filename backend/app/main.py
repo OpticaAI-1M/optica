@@ -17,14 +17,9 @@ app = FastAPI(
 
 
 @app.get("/health", tags=["Health"])
-async def health_check(
-    user: Dict[str, Any] = Depends(require_roles(["support_engineer"])),
-) -> dict:
+async def health_check() -> dict[str, str]:
     """
-    Protected health endpoint with RBAC.
-    Only support_engineer role allowed.
+    Health endpoint used by Docker, monitoring,
+    and startup verification.
     """
-    return {
-        "status": "ok",
-        "user": user.get("preferred_username"),
-    }
+    return {"status": "ok"}
