@@ -6,7 +6,7 @@ from fastapi import FastAPI, Depends
 from typing import Dict, Any
 
 from app.core.config import get_settings
-from app.api.deps import get_current_user
+from app.api.deps import get_current_user, require_roles
 
 settings = get_settings()
 
@@ -18,11 +18,11 @@ app = FastAPI(
 
 @app.get("/health", tags=["Health"])
 async def health_check(
-    user: Dict[str, Any] = Depends(get_current_user),
+    user: Dict[str, Any] = Depends(require_roles(["support_engineer"])),
 ) -> dict:
     """
-    Protected health endpoint.
-    Requires valid JWT token.
+    Protected health endpoint with RBAC.
+    Only support_engineer role allowed.
     """
     return {
         "status": "ok",
