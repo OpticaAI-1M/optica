@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     app_version: str = "0.1.0"
     environment: str = "development"
 
-    postgres_db: str = "optica"
+    postgres_db: str = "optica_app"
     postgres_user: str = "optica"
     postgres_password: str = "optica"
 
