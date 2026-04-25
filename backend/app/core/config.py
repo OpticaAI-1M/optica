@@ -18,9 +18,11 @@ class Settings(BaseSettings):
     app_version: str = "0.1.0"
     environment: str = "development"
 
-    postgres_db: str = "optica_app"
     postgres_user: str = "optica"
     postgres_password: str = "optica"
+    
+    app_db: str = "optica_app"
+    keycloak_db: str = "optica_keycloak"
 
     keycloak_admin: str = "admin"
 
