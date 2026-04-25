@@ -11,7 +11,7 @@ settings = get_settings()
 
 DATABASE_URL = (
     f"postgresql://{settings.postgres_user}:"
-    f"{settings.postgres_password}@db:5432/{settings.postgres_db}"
+    f"{settings.postgres_password}@db:5432/{settings.app_db}"
 )
 
 engine = create_engine(DATABASE_URL)
