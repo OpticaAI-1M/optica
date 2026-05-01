@@ -7,6 +7,7 @@ from typing import Dict, Any
 
 from app.core.config import get_settings
 from app.api.deps import get_current_user, require_roles
+from app.api.routes.incident_router import router as incident_router
 
 settings = get_settings()
 
@@ -14,6 +15,8 @@ app = FastAPI(
     title=settings.app_name,
     version=settings.app_version,
 )
+
+app.include_router(incident_router)
 
 
 @app.get("/health", tags=["Health"])
