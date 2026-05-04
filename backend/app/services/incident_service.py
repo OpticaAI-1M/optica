@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.models.incident import Incident, IncidentStatus
 from app.repositories.incident_repository import IncidentRepository
+from app.core.exceptions import ValidationException
 
 
 class IncidentService:
@@ -27,7 +28,7 @@ class IncidentService:
 
         # 1️ Validate required fields
         if "title" not in data or not data["title"]:
-            raise ValueError("Title is required")
+            raise ValidationException("Title is required")
 
         # 2️ Apply defaults
         data.setdefault("status", IncidentStatus.OPEN)

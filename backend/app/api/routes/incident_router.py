@@ -6,46 +6,30 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 
-from app.core.database import SessionLocal
+from app.core.database import get_db
 from app.services.incident_service import IncidentService
-
+from app.schemas.incident_schema import (
+    IncidentCreateRequest,
+    IncidentResponse,
+)
 
 router = APIRouter(prefix="/incidents", tags=["incidents"])
 
 
-def get_db():
-    """
-    Dependency to get DB session.
-    """
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
-
-@router.post("/")
+@router.post("/", response_model=IncidentResponse)
 def create_incident(
-    payload: dict,
+    payload: IncidentCreateRequest,
     db: Session = Depends(get_db),
 ):
+    """
+    Create a new incident.
+    """
     service = IncidentService()
+    incident = service.create_incident(db, payload.model_dump())
 
-    try:
-        incident = service.create_incident(db, payload)
-        return {"id": str(incident.id)}
-
-    except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
-
-    except IntegrityError:
-        raise HTTPException(
-            status_code=400,
-            detail="Invalid foreign key reference (user or team not found)",
-        )
-
-    except Exception:
-        raise HTTPException(
-            status_code=500,
-            detail="Internal server error",
-        )
+    return IncidentResponse(
+        id=incident.id,
+        title=incident.title,
+        description=incident.description,
+        priority=incident.priority,
+    )
