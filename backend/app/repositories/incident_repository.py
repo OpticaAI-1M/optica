@@ -50,3 +50,29 @@ class IncidentRepository(BaseRepository[Incident]):
             .filter(self.model.priority == priority)
             .all()
         )
+
+    def list_incidents(
+        self,
+        db: Session,
+        status: IncidentStatus | None = None,
+        priority: str | None = None,
+        team_id: UUID | None = None,
+        limit: int = 10,
+        offset: int = 0,
+    ) -> list[Incident]:
+        """
+        List incidents with optional filters and pagination.
+        """
+
+        query = db.query(self.model)
+
+        if status:
+            query = query.filter(self.model.status == status)
+
+        if priority:
+            query = query.filter(self.model.priority == priority)
+
+        if team_id:
+            query = query.filter(self.model.team_id == team_id)
+
+        return query.offset(offset).limit(limit).all()
