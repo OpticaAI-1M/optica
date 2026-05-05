@@ -3,6 +3,7 @@ Incident service layer handling business logic.
 """
 
 from sqlalchemy.orm import Session
+from uuid import UUID
 
 from app.models.incident import Incident, IncidentStatus
 from app.repositories.user_repository import UserRepository
@@ -53,3 +54,32 @@ class IncidentService:
         incident = self.repo.create(db, data)
 
         return incident
+    
+    def list_incidents(
+        self,
+        db: Session,
+        status: IncidentStatus | None = None,
+        priority: str | None = None,
+        team_id: UUID | None = None,
+        limit: int = 10,
+        offset: int = 0,
+    ) -> list[Incident]:
+        """
+        Retrieve incidents with optional filters and pagination.
+        """
+
+        # Basic validation for pagination
+        if limit <= 0 or limit > 100:
+            raise ValidationException("Limit must be between 1 and 100")
+
+        if offset < 0:
+            raise ValidationException("Offset must be non-negative")
+
+        return self.repo.list_incidents(
+            db=db,
+            status=status,
+            priority=priority,
+            team_id=team_id,
+            limit=limit,
+            offset=offset,
+        )
