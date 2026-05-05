@@ -57,11 +57,12 @@ class IncidentRepository(BaseRepository[Incident]):
         status: IncidentStatus | None = None,
         priority: str | None = None,
         team_id: UUID | None = None,
+        search: str | None = None,
         limit: int = 10,
         offset: int = 0,
     ) -> list[Incident]:
         """
-        List incidents with optional filters and pagination.
+        List incidents with optional filters, search, and pagination.
         """
 
         query = db.query(self.model)
@@ -74,5 +75,12 @@ class IncidentRepository(BaseRepository[Incident]):
 
         if team_id:
             query = query.filter(self.model.team_id == team_id)
+
+        if search:
+            search_pattern = f"%{search}%"
+            query = query.filter(
+                (self.model.title.ilike(search_pattern)) |
+                (self.model.description.ilike(search_pattern))
+            )
 
         return query.offset(offset).limit(limit).all()
