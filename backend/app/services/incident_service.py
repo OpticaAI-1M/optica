@@ -45,6 +45,10 @@ class IncidentService:
         team = self.team_repo.get_by_id(db, data["team_id"])
         if not team:
             raise NotFoundException("Team not found")
+        
+        # Validate user belongs to team
+        if user.team_id != team.id:
+            raise ValidationException("User does not belong to the specified team")
 
         # Apply defaults
         data.setdefault("status", IncidentStatus.OPEN)
