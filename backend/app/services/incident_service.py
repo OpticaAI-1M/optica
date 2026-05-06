@@ -61,14 +61,14 @@ class IncidentService:
         status: IncidentStatus | None = None,
         priority: str | None = None,
         team_id: UUID | None = None,
+        search: str | None = None,
         limit: int = 10,
         offset: int = 0,
     ) -> list[Incident]:
         """
-        Retrieve incidents with optional filters and pagination.
+        Retrieve incidents with optional filters, search, and pagination.
         """
 
-        # Basic validation for pagination
         if limit <= 0 or limit > 100:
             raise ValidationException("Limit must be between 1 and 100")
 
@@ -80,6 +80,7 @@ class IncidentService:
             status=status,
             priority=priority,
             team_id=team_id,
+            search=search,
             limit=limit,
             offset=offset,
         )

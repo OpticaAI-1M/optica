@@ -44,12 +44,13 @@ def list_incidents(
     status: Optional[IncidentStatus] = None,
     priority: Optional[str] = None,
     team_id: Optional[UUID] = None,
+    search: Optional[str] = None,
     limit: int = 10,
     offset: int = 0,
     db: Session = Depends(get_db),
 ):
     """
-    List incidents with optional filters and pagination.
+    List incidents with optional filters, search, and pagination.
     """
     service = IncidentService()
 
@@ -58,6 +59,7 @@ def list_incidents(
         status=status,
         priority=priority,
         team_id=team_id,
+        search=search,
         limit=limit,
         offset=offset,
     )
