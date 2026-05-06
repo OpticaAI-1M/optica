@@ -14,6 +14,7 @@ class IncidentCreateRequest(BaseModel):
     title: str = Field(..., min_length=1)
     description: str | None = None
     priority: str = Field(default="P3")
+    # will be set from token, not client input
     created_by: UUID
     team_id: UUID
 

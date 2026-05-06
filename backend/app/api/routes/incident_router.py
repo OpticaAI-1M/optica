@@ -16,6 +16,7 @@ from app.schemas.incident_schema import (
     IncidentCreateRequest,
     IncidentResponse,
 )
+from app.api.deps import get_current_user
 
 router = APIRouter(prefix="/incidents", tags=["incidents"])
 
@@ -24,12 +25,18 @@ router = APIRouter(prefix="/incidents", tags=["incidents"])
 def create_incident(
     payload: IncidentCreateRequest,
     db: Session = Depends(get_db),
+    current_user = Depends(get_current_user),
 ):
     """
     Create a new incident.
     """
     service = IncidentService()
-    incident = service.create_incident(db, payload.model_dump())
+    data = payload.model_dump()
+
+    # Enforce ownership from token (not client input)
+    data["created_by"] = current_user["sub"]
+
+    incident = service.create_incident(db, data)
 
     return IncidentResponse(
         id=incident.id,
@@ -48,6 +55,7 @@ def list_incidents(
     limit: int = 10,
     offset: int = 0,
     db: Session = Depends(get_db),
+    current_user = Depends(get_current_user),
 ):
     """
     List incidents with optional filters, search, and pagination.
