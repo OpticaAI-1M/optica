@@ -8,6 +8,9 @@ from typing import Dict, Any
 from app.core.config import get_settings
 from app.api.deps import get_current_user, require_roles
 from app.api.routes.incident_router import router as incident_router
+from app.api.routes.document_router import (
+    router as document_router,
+)
 
 from app.core.exceptions import (
     AppException,
@@ -31,6 +34,7 @@ app = FastAPI(
 )
 
 app.include_router(incident_router)
+app.include_router(document_router)
 
 app.add_exception_handler(AppException, app_exception_handler)
 app.add_exception_handler(ValidationException, validation_exception_handler)
