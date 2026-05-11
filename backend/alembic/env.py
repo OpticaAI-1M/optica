@@ -16,7 +16,7 @@ DATABASE_URL = (
 
 
 from app.core.database import Base
-from app.models import team, user, incident  # IMPORTANT: ensure models are imported
+from app.models import team, user, incident, document   # IMPORTANT: ensure models are imported
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
