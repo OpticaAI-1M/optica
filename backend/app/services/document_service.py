@@ -12,6 +12,7 @@ from app.models.document import UploadedDocument
 from app.repositories.document_repository import DocumentRepository
 from app.storage.local_storage import LocalStorage
 from app.core.exceptions import ValidationException
+from app.workers.ingestion import process_uploaded_document
 
 
 ALLOWED_CONTENT_TYPES = {
@@ -76,5 +77,8 @@ class DocumentService:
                 "processing_status": "PENDING",
             },
         )
+
+        # Trigger async ingestion pipeline
+        process_uploaded_document.delay(str(document.id))
 
         return document
