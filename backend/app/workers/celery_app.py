@@ -28,3 +28,11 @@ celery_app.conf.update(
     timezone="UTC",
     enable_utc=True,
 )
+
+# celery_app.autodiscover_tasks(
+#     [
+#         "app.workers",
+#     ]
+# )
+
+from app.workers import ingestion
