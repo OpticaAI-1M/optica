@@ -1,0 +1,154 @@
+## MY COMPLETE CONTEXT — READ THIS FIRST
+
+### WHO I AM
+Name: Praveen Kodavali
+Email: praveenkodavali2001@gmail.com
+Phone: +91-6300033822
+LinkedIn: linkedin.com/in/praveenkodavali2001
+Location: Raipur, Chhattisgarh, India
+Education: BTech Computer Science, Andhra University (2019–2023)
+
+---
+
+### CURRENT SITUATION
+- SDE-II at NucleusTeq (product: Nuodata / nuodata.io / nuodata.ai)
+- Joined July 2023, currently serving notice period (~2 months left as of April 2026)
+- In the job market I present myself as 3 years experience
+- Goal: Land a job at a great company in the next 2 months
+- Actively starting LinkedIn and GitHub presence from scratch
+- Preparing DSA, LLD, HLD in parallel while job hunting
+
+---
+
+### WHAT I BUILT AT NUODATA (my strongest talking point)
+I built "Maestro" — a low-code/no-code workflow orchestration platform.
+- Backend: FastAPI + Python + MongoDB
+- Engine: Apache Airflow with a custom plugin that generates DAGs dynamically from API payloads
+- Built AI Agent operators in Airflow that call external agent APIs for inference
+- Implemented Human-in-the-Loop (HITL) — workflows pause for human validation, then resume
+- Built a Trigger Framework: schedule-based, file-based, table-update-based triggers
+- Built reusable DB connectors using SQLAlchemy + Spark (Oracle, BigQuery, MySQL, Iceberg)
+- Architected cloud-agnostic system using Factory Pattern (AWS + GCP)
+- Built a microservice for Liquibase-based MongoDB evolutions
+- Integrated GA4 analytics into the product dashboard
+- I can talk about my experience and learnings but CANNOT reveal company code or internal proprietary details
+
+---
+
+### MY SKILLS
+Strong (can defend in interviews):
+- Python, FastAPI, Apache Airflow (Astronomer certified — DAG Authoring + Fundamentals), MongoDB, SQLAlchemy, Apache Spark, data pipelines, source connectors, ReactJS, Spring Boot, Docker
+
+Exposure/basic knowledge:
+- Keycloak, OpenMetadata, data lineage, Informatica, SSIS, Databricks, n8n, Dagster, Prefect, Kestra, Make, Zapier
+
+AI knowledge (building up):
+- RAG basics, fine-tuning concepts, MCP tools, built custom Airflow operators calling agent APIs
+
+---
+
+### DREAM / TARGET COMPANIES
+Zapier, n8n, Kestra, Databricks, Astronomer, Dagster, Prefect
+(I have an active job lead at Kestra)
+Open to all companies — not just these
+
+### TARGET ROLES
+Software Engineer, Senior Software Engineer, Python Developer, Java Developer
+After Optica project completes: open to AI/ML Engineer roles too
+
+### LOCATIONS
+Primary: Bengaluru, Hyderabad, Pune
+Open to: All of India
+Visa sponsorship: Open to it if an employer offers, but not primary focus
+
+### MY MOTTO
+Even if a job doesn't match my exact skills, I apply. I know I can learn fast once I'm in.
+
+---
+
+### MY SIDE PROJECT: OPTICA (in progress, not started yet)
+
+Optica is an AI-Powered Production Incident Intelligence Platform for engineering/SRE teams.
+Tagline: "See every incident down to the root"
+
+WHAT IT DOES:
+- Engineers create incidents, upload logs/runbooks
+- System uses Hybrid RAG (BM25 + semantic search via LangChain EnsembleRetriever) to find similar historical incidents
+- AI calls live tools (GitHub Releases API via MCP) to check recent deployments
+- Returns structured root cause with confidence score and recommended fix steps
+- Multi-tenant RBAC via Keycloak — teams are fully isolated including at the RAG layer
+
+TECH STACK:
+- Backend: FastAPI + Python 3.11
+- Database: PostgreSQL + pgvector (vector embeddings stored inside Postgres — no separate vector DB)
+- Auth: Keycloak + JWT (OIDC, multi-tenant RBAC)
+- Queue: RabbitMQ + Celery (async document ingestion and AI inference)
+- AI: LangChain + Ollama (Llama3 locally, swap to OpenAI for prod)
+- Embeddings: SentenceTransformers all-MiniLM-L6-v2 (free, local)
+- Frontend: React + Tailwind
+- Infrastructure: Docker Compose (single `docker compose up`)
+
+KEY DESIGN DECISIONS (I need to defend these in interviews):
+1. Hybrid RAG (BM25 + Semantic): Pure vector search fails on exact technical terms (error codes, service names). BM25 handles exact matches, semantic handles conceptual matches. Combined via EnsembleRetriever([bm25, vector], weights=[0.4, 0.6])
+2. pgvector over Pinecone/Qdrant: Same Postgres DB — no extra service. team_id filter at SQL layer enforces multi-tenant isolation structurally
+3. Keycloak over plain JWT: Token refresh, revocation, RBAC, OIDC all out of the box
+4. RabbitMQ + Celery: Honest answer — BackgroundTasks would work at MVP scale. Chose RabbitMQ to learn the pattern and build for scale (independent worker scaling, dead-letter queues)
+5. Factory Pattern for AI/Embed providers: Swap Ollama for OpenAI without changing RAG code
+
+DESIGN PATTERNS USED: Repository Pattern, Service Layer, Strategy Pattern, Factory Pattern, Command Pattern (MCP tools), Observer Pattern (notifications), Dependency Injection
+
+BUILD PLAN: 4 weeks. Week 1: Auth + DB + Incident CRUD. Week 2: Embedding pipeline + Hybrid RAG + MCP tools. Week 3: Tests + polish. Week 4: CI/CD + demo video
+
+RESUME LINE FOR OPTICA:
+"Built an AI-powered production incident intelligence platform that reduces MTTR by surfacing similar historical incidents using hybrid RAG (BM25 + semantic search with LangChain EnsembleRetriever). Implemented Keycloak-backed multi-tenant RBAC with team-scoped vector retrieval, MCP-style tool calling (real GitHub Releases API integration), async document ingestion via RabbitMQ + Celery, and a full audit logging system — built on FastAPI, PostgreSQL, pgvector, and Docker Compose."
+
+I will add Optica to my resume once it's 30% done, replacing the old Employee Management Portal project.
+
+---
+
+### LINKEDIN STRATEGY
+Goal: Build visibility in the orchestration/data engineering/AI space to attract recruiters and community.
+
+Content rules:
+- I can share my own learnings and experiences
+- I CANNOT reveal company code, architecture, or proprietary Nuodata details
+- I can say "while building HITL workflows, I realized..." without revealing company specifics
+
+Planned content pillars:
+1. Experience-based insights: "While implementing X, I faced Y, here's what I learned"
+2. Tool comparisons: Airflow vs Dagster vs Prefect vs Kestra vs n8n (I've used/explored all)
+3. Optica build journey: Post about it before I even start — build community interest early
+4. Controversial/opinion posts (ONLY after establishing some credibility — not first): e.g. "Do small teams really need Databricks for 50GB workloads?"
+
+LinkedIn posting plan:
+- Mon/Wed/Fri: one post drafted by Claude, I review and post
+- Start with credibility posts, build to Optica, then controversy
+
+---
+
+### DAILY JOB HUNT WORKFLOW (we run this together every morning)
+Every morning I open Claude and say "morning" — Claude searches fresh jobs, shortlists top 5 fits, and drafts outreach/cover note for each. I copy-paste and apply. 15 mins max.
+
+Job search priorities:
+1. Dream companies: Zapier, n8n, Kestra, Databricks, Astronomer, Dagster, Prefect
+2. Any strong Python/FastAPI/Airflow/data engineering roles at good companies
+3. AI/ML engineer roles (after Optica progress)
+4. Bengaluru > Hyderabad > Pune > rest of India > international with visa sponsorship
+
+---
+
+### WHAT I NEED FROM CLAUDE EACH SESSION
+1. Fresh job shortlist (top 5 matched roles) with why each fits my profile
+2. One LinkedIn post drafted (my voice, experience-led, not generic)
+3. Any resume or cover note help as needed
+4. Honest feedback — don't sugarcoat
+5. Keep building toward landing a job at one of my dream companies
+
+---
+
+### IMPORTANT CONTEXT
+- Notice period ends ~June 2026
+- I am learning DSA, LLD, HLD in parallel — not interview-ready for top product companies yet, but applying anyway
+- I believe in learning on the job once I get in
+- I am building Optica to get AI hands-on and strengthen my system design thinking
+- My current resume still has the old Employee Management Portal project — will replace with Optica at 30% completion
