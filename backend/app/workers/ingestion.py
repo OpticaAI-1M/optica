@@ -9,6 +9,9 @@ from sqlalchemy.orm import Session
 from app.core.database import SessionLocal
 from app.models.document import UploadedDocument
 from app.workers.celery_app import celery_app
+from app.parsers.text_parser import TextParser
+from app.chunking.text_chunker import TextChunker
+from app.repositories.chunk_repository import ChunkRepository
 
 
 @celery_app.task(name="process_uploaded_document")
@@ -48,7 +51,32 @@ def process_uploaded_document(document_id: str) -> None:
             db.commit()
             return
 
-        # Future ingestion pipeline starts here
+        # Read uploaded file
+        with open(file_path, "rb") as uploaded_file:
+            file_content = uploaded_file.read()
+
+        # Extract raw text
+        extracted_text = TextParser.extract_text(
+            file_content
+        )
+
+        # Generate chunks
+        chunks = TextChunker.chunk_text(
+            extracted_text
+        )
+
+        chunk_repository = ChunkRepository()
+
+        # Persist chunks
+        for index, chunk_content in enumerate(chunks):
+            chunk_repository.create(
+                db,
+                {
+                    "document_id": document.id,
+                    "chunk_index": index,
+                    "content": chunk_content,
+                },
+            )
 
         document.processing_status = "COMPLETED"
         db.commit()
