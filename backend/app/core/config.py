@@ -26,6 +26,9 @@ class Settings(BaseSettings):
 
     keycloak_admin: str = "admin"
 
+    embedding_provider: str = "sentence_transformers"
+    embedding_model: str = "all-MiniLM-L6-v2"
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",

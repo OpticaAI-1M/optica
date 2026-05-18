@@ -12,6 +12,9 @@ from app.workers.celery_app import celery_app
 from app.parsers.text_parser import TextParser
 from app.chunking.text_chunker import TextChunker
 from app.repositories.chunk_repository import ChunkRepository
+from app.workers.embedding import (
+    generate_chunk_embedding,
+)
 
 
 @celery_app.task(name="process_uploaded_document")
@@ -69,13 +72,18 @@ def process_uploaded_document(document_id: str) -> None:
 
         # Persist chunks
         for index, chunk_content in enumerate(chunks):
-            chunk_repository.create(
+            created_chunk =  chunk_repository.create(
                 db,
                 {
                     "document_id": document.id,
                     "chunk_index": index,
                     "content": chunk_content,
                 },
+            )
+
+            # Trigger semantic enrichment
+            generate_chunk_embedding.delay(
+                str(created_chunk.id)
             )
 
         document.processing_status = "COMPLETED"

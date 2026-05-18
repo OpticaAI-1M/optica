@@ -35,4 +35,4 @@ celery_app.conf.update(
 #     ]
 # )
 
-from app.workers import ingestion
+from app.workers import ingestion,embedding
