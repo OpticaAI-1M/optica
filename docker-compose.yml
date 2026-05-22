@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   db:
-    image: postgres:15
+    image: pgvector/pgvector:pg15
     container_name: optica-db
     restart: unless-stopped
     environment:
@@ -96,7 +96,9 @@ services:
     volumes:
       - ./backend:/app/backend
       - ./data/uploads:/data/uploads
+      - huggingface_cache:/root/.cache/huggingface
 
 volumes:
   postgres_data:
   rabbitmq_data:
+  huggingface_cache:
