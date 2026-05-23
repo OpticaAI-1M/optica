@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   db:
-    image: postgres:15
+    image: pgvector/pgvector:pg15
     container_name: optica-db
     restart: unless-stopped
     environment:
@@ -64,6 +64,7 @@ services:
     build:
       context: .
       dockerfile: infra/docker/Dockerfile.api
+    image: optica-api:latest 
     container_name: optica-api
     restart: unless-stopped
     env_file:
@@ -83,6 +84,7 @@ services:
     build:
       context: .
       dockerfile: infra/docker/Dockerfile.api
+    image: optica-api:latest 
     container_name: optica-celery-worker
     restart: unless-stopped
     command: celery -A app.workers.celery_app.celery_app worker --loglevel=info
@@ -96,7 +98,9 @@ services:
     volumes:
       - ./backend:/app/backend
       - ./data/uploads:/data/uploads
+      - huggingface_cache:/root/.cache/huggingface
 
 volumes:
   postgres_data:
   rabbitmq_data:
+  huggingface_cache:

@@ -25,6 +25,24 @@ COPY backend/pyproject.toml /app/backend/pyproject.toml
 # If poetry.lock exists later, add it too:
 # COPY backend/poetry.lock /app/backend/poetry.lock
 
+
+# Install CPU-only PyTorch explicitly
+#
+# IMPORTANT:
+# Prevents Poetry/sentence-transformers from downloading
+# massive CUDA GPU dependencies inside local development containers.
+#
+# This dramatically reduces:
+# - image size
+# - build time
+# - contributor onboarding pain
+#
+# Future production GPU workers can use dedicated GPU images later.
+# -------------------------------------------------------------------
+RUN pip install --no-cache-dir \
+    torch==2.7.0 \
+    --index-url https://download.pytorch.org/whl/cpu
+    
 # Install dependencies
 RUN poetry install --no-root
 
