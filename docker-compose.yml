@@ -64,6 +64,7 @@ services:
     build:
       context: .
       dockerfile: infra/docker/Dockerfile.api
+    image: optica-api:latest 
     container_name: optica-api
     restart: unless-stopped
     env_file:
@@ -83,6 +84,7 @@ services:
     build:
       context: .
       dockerfile: infra/docker/Dockerfile.api
+    image: optica-api:latest 
     container_name: optica-celery-worker
     restart: unless-stopped
     command: celery -A app.workers.celery_app.celery_app worker --loglevel=info
